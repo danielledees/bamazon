@@ -3,6 +3,7 @@ CREATE DATABASE bamazonDB;
 
 USE bamazonDB;
 
+
 CREATE TABLE products (
     id INT NOT NULL AUTO_INCREMENT,
     product_name VARCHAR (100) NULL,
@@ -10,6 +11,14 @@ CREATE TABLE products (
     price INT default 0,
     stock_quantity INT (50) NULL,
     PRIMARY KEY (id)
+);
+
+
+CREATE TABLE departments (
+    id INT NOT NULL AUTO_INCREMENT,
+    department_name VARCHAR (100) NULL,
+    overhead_costs INT default 0,
+    primary key (id)
 );
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
@@ -41,3 +50,9 @@ VALUES ("shower curtain", "bath", 15.00), 5;
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("desk", "office", 300.00, 50);
+
+
+
+
+
+  

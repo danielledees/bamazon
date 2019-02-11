@@ -152,6 +152,54 @@ function addInv() {
 
 function addProd() {
     console.log("addProd function is working");
+    inquirer
+    .prompt ([
+        {
+            name: "product",
+            type: "input",
+            message: "Enter in new product name"
+        },
+        {
+            name: "dept",
+            type: "input",
+            message: "What department does the new product belong to?"
+        },
+        {
+            name: "amt",
+            type: "input",
+            message: "What is the price?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
+        },
+        {
+            name: "qty",
+            type: "input",
+            message: "How many in stock?",
+            validate: function(value) {
+                if (isNaN(value) === false) {
+                  return true;
+                }
+                return false;
+              }
+        }
+
+    ]).then(function(answer) {
+        connection.query("INSERT INTO products SET ?", {
+            product_name: answer.product,
+            department_name: answer.dept,
+            price: answer.amt,
+            stock_quantity: answer.qty
+        },
+        function(err, results) {
+            if (err) throw err;
+            console.log("Item added to inventory")
+        }
+        );
+    });
 }
 
 
