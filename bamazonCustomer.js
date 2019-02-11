@@ -80,8 +80,9 @@ connection.connect(function(err) {
          console.log("\n");
 
          for(var i = 0; i < results.length; i++) {
-             console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
+             console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity + " | " + "Sales: " + results[i].product_sales);
              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+             
          }
 
       // The first should ask them the ID of the product they would like to buy.
@@ -131,13 +132,24 @@ connection.connect(function(err) {
                  var orderAmt = results[cart].price * units;
                  console.log("Your order total is  $" + orderAmt);
                  connection.query("UPDATE products SET ? WHERE ?", [{
+                    product_sales: orderAmt
+                   //sales doesn't work and caused qty update to stop working
+                }, {
+                    
                     stock_quantity: results[cart].stock_quantity - units
                 }, {
                     id: results[cart].id
+
                 }], function(err, results) {
                     console.log("SQL Updated");
                     
                 });
+
+                //******************* */
+//                 when a customer purchases anything from the store, the price of the product multiplied by the quantity purchased is added to the product's product_sales column.
+
+//    * Make sure your app still updates the inventory listed in the `products` column.
+        //******************* */
                  
                
              } else {
