@@ -62,16 +62,6 @@ function start() {
         } else if (answer.options === "Add New Product") {
             addProd();
         }
-        // switch(answer.option) {
-        //     case "View Products for Sale": viewProd();
-        //     break;
-        //     case "View Low Inventory": viewInv();
-        //     break;
-        //     case "Add to Inventory": addInv();
-        //     break;
-        //     case "Add New Products": addProd();
-        //     break;
-        // } 
 
     })
 }
@@ -82,35 +72,82 @@ function start() {
 
 function viewProd() {
     console.log("viewProd function is working");
-//     connection.query("SELECT * FROM products", function(err, results) {
-//         if (err) throw err;
+    connection.query("SELECT * FROM products", function(err, results) {
+        if (err) throw err;
 
-//         console.log("\n");
-//         console.log("Items available:");
-//         console.log("**********************************************************************************");
-//         console.log("\n");
+        console.log("\n");
+        console.log("Items available:");
+        console.log("**********************************************************************************");
+        console.log("\n");
 
-//         for(var i = 0; i < results.length; i++) {
-//             console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
-//             console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-//         }
-// });
+        for(var i = 0; i < results.length; i++) {
+            console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
+            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        }
+});
 };
 
 //function to view low inventory
 
 function viewInv() {
     console.log("viewInv function is working");
-    // connection.query("SELECT * FROM products", function(err, results) {
-    //     if (err) throw err;
-    //     for (var i =0; i < results.length; i++) {
-    //         console.log("Running low on: " + results[i].stock_quantity >= 5)
-    //     }
-    // })
+    connection.query("SELECT * FROM products", function(err, results) {
+        if (err) throw err;
+        for (var i =0; i < results.length; i++) {
+            if (results[i].stock_quantity < 5) {
+                var lowItems = {
+                    id: results[i].id,
+                    prod: results[i].product_name,
+                    dept: results[i].department_name,
+                    price: results[i].price,
+                    qty: results[i].stock_quantity
+                };
+            console.log("Running low on: " + JSON.stringify(lowItems));
+        }
+        }
+    })
 }
 
 function addInv() {
     console.log("addInv function is working");
+    inquirer
+         .prompt([
+             {
+             name: "choice",
+             type: "input",
+             message: "Please enter the item ID you would like to update inventory for",
+             validate: function(value) {
+                 if (isNaN(value) === false) {
+                     return true;
+                 } else {
+                     return false;
+                 }
+             }
+             
+            }, {
+                name: "qty",
+                type: "input",
+                message: "What is the updated amount of item available?",
+                validate: function(value) {
+                    if (isNaN(value) ==false) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+            }]).then(function(answers) {
+                connection.query("UPDATE products SET ? WHERE ?", [{
+                    stock_quantity: answers.qty
+                }, {
+                    
+                    id: answers.choice
+
+                }], function(err, results) {
+                    console.log("Inventory Updated");
+                    
+                });
+            })
 }
 
 function addProd() {
