@@ -73,10 +73,11 @@ connection.connect(function(err) {
   function shop() {
      connection.query("SELECT * FROM products", function(err, results) {
          if (err) throw err;
-         
-         console.log("Items available:");
+
          console.log("\n");
-         console.log("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+         console.log("Items available:");
+         console.log("**********************************************************************************");
+         console.log("\n");
 
          for(var i = 0; i < results.length; i++) {
              console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
@@ -116,7 +117,7 @@ connection.connect(function(err) {
          .then(function(answer) {
              //get product info
              var cart = answer.choice-1;
-             var shoppingCart = cart.product_name;
+             var shoppingCart = results[cart].product_name;
              var units = answer.qty;
             console.log("Shopping Cart: " + shoppingCart);
              console.log("QTY: " + units);
@@ -134,13 +135,14 @@ connection.connect(function(err) {
                 }, {
                     id: results[cart].id
                 }], function(err, results) {
-                    console.log("SQL Updated")
+                    console.log("SQL Updated");
+                    
                 });
                  
                
              } else {
                  console.log("Sorry, not enought in stock.  Order Cancelled!");
-                 start()
+                 start();
 
              }
             })
