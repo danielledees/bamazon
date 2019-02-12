@@ -60,6 +60,7 @@ connection.connect(function(err) {
             shop();
         }
         else {
+            console.log("Ok Bye!")
             connection.end();
         }
     })
@@ -80,7 +81,7 @@ connection.connect(function(err) {
          console.log("\n");
 
          for(var i = 0; i < results.length; i++) {
-             console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity + " | " + "Sales: " + results[i].product_sales);
+             console.log("ID: " + results[i].item_id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
              console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
              
          }
@@ -121,29 +122,34 @@ connection.connect(function(err) {
              var shoppingCart = results[cart].product_name;
              var units = answer.qty;
             
-            console.log(results);
+            
 
              //check if enough is in stock
+             console.log("\n");
+             console.log("Your cart contains: " + shoppingCart + " " + "QTY: " + units)
+             console.log("\n");
 
              if (units <= results[cart].stock_quantity) {
                  console.log("Awesome, we have enough in stock to place your order");
-                
+                 console.log("\n");
                  var orderAmt = results[cart].price * units;
                  var newAmt = parseInt(orderAmt) + parseInt(results[cart].product_sales)
+
                  console.log("Your order total is  $" + orderAmt);
-                 connection.query("UPDATE products SET ? WHERE ?", [{
+                 console.log("\n");
+                 connection.query("UPDATE products SET ? WHERE ?", [
+                     {
                     stock_quantity: results[cart].stock_quantity - units,
                     product_sales: newAmt
 
                 },
                  {
                     
-                    id: results[cart].id
+                    item_id: results[cart].item_id
                 }], function(err, results) {
-                    console.log(err, "error")
                     console.log("SQL Updated");
-                    console.log(results)
                     //start();  //doesn't work
+                    shopMore();
                 });
 
                 
@@ -156,12 +162,37 @@ connection.connect(function(err) {
                  
                
              } else {
+                console.log("\n");
                  console.log("Sorry, not enought in stock.  Order Cancelled!");
                  //start(); //doesn't work
+                 shopMore();
 
              }
             })
         })
+    }
+
+
+    function shopMore () {
+        console.log("shop more is working!")
+        inquirer
+        .prompt ([
+            {
+                type: "confirm",
+                name: "more",
+                message: "Would you like to continue shopping?",
+                default: true
+            }
+        ]).then(function(res) {
+            if (res.more === true) {
+                shop();
+            }
+            else {
+                console.log("Thanks for shopping with us! Have a nice day!")
+                connection.end();
+            }
+        })
+        
     }
 
    

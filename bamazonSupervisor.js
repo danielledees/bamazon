@@ -75,16 +75,21 @@ function start() {
 
 function viewSales() {
     console.log("view sales function is working")
-    connection.query("SELECT * FROM departments", function(err, results) {
+    connection.query("SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM departments INNER JOIN products ON departments.department_name = products.department_name WHERE departments.department_name AND products.department_name GROUP BY department_id, departments.department_name, overhead_costs, product_sales", function(err, results) {
         if (err) throw err;
 
+
+        console.log("error here " + err);
+        console.log("Results here " + results);
+
         console.log("\n");
-        console.log("Items available:");
+        console.log("Sales:");
         console.log("**********************************************************************************");
         console.log("\n");
+        
 
         for(var i = 0; i < results.length; i++) {
-            console.log("ID: " + results[i].id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs);
+            console.log("ID: " + results[i].department.id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs + " | " + "Product Sales: " + results[i].product_sales);
             console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");                
             }
     })
