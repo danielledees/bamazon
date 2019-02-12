@@ -26,6 +26,7 @@
 
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var table = require('table');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -74,7 +75,21 @@ function start() {
 
 function viewSales() {
     console.log("view sales function is working")
+    connection.query("SELECT * FROM departments", function(err, results) {
+        if (err) throw err;
+
+        console.log("\n");
+        console.log("Items available:");
+        console.log("**********************************************************************************");
+        console.log("\n");
+
+        for(var i = 0; i < results.length; i++) {
+            console.log("ID: " + results[i].id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs);
+            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");                
+            }
+    })
 }
+
 
 
 function addDept() {

@@ -21,6 +21,50 @@ CREATE TABLE departments (
     primary key (id)
 );
 
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("electronics", 100);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("books", 50);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("clothing", 75);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("sporting goods", 125);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("kitchen appliances", 150);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("furniture", 200);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("lighting", 175);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("bedding", 50);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("bath", 100);
+
+INSERT INTO departments (department_name, overhead_costs)
+VALUES ("office", 125);
+
+
+
+
+
+
+
+
+
+
+
+
+
+//prodcuts 
+
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("speakers", "electronics", 200.00, 10);
 

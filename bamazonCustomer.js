@@ -120,9 +120,8 @@ connection.connect(function(err) {
              var cart = answer.choice-1;
              var shoppingCart = results[cart].product_name;
              var units = answer.qty;
-            console.log("Shopping Cart: " + shoppingCart);
-             console.log("QTY: " + units);
-
+            
+            console.log(results);
 
              //check if enough is in stock
 
@@ -130,20 +129,24 @@ connection.connect(function(err) {
                  console.log("Awesome, we have enough in stock to place your order");
                 
                  var orderAmt = results[cart].price * units;
+                 var newAmt = parseInt(orderAmt) + parseInt(results[cart].product_sales)
                  console.log("Your order total is  $" + orderAmt);
                  connection.query("UPDATE products SET ? WHERE ?", [{
-                    product_sales: orderAmt
-                   //sales doesn't work and caused qty update to stop working
-                }, {
-                    
-                    stock_quantity: results[cart].stock_quantity - units
-                }, {
-                    id: results[cart].id
+                    stock_quantity: results[cart].stock_quantity - units,
+                    product_sales: newAmt
 
-                }], function(err, results) {
-                    console.log("SQL Updated");
+                },
+                 {
                     
+                    id: results[cart].id
+                }], function(err, results) {
+                    console.log(err, "error")
+                    console.log("SQL Updated");
+                    console.log(results)
+                    //start();  //doesn't work
                 });
+
+                
 
                 //******************* */
 //                 when a customer purchases anything from the store, the price of the product multiplied by the quantity purchased is added to the product's product_sales column.
@@ -154,7 +157,7 @@ connection.connect(function(err) {
                
              } else {
                  console.log("Sorry, not enought in stock.  Order Cancelled!");
-                 start();
+                 //start(); //doesn't work
 
              }
             })
