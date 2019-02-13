@@ -76,13 +76,13 @@ function viewProd() {
         if (err) throw err;
 
         console.log("\n");
-        console.log("Items available:");
+        console.log("Inventory:");
         console.log("**********************************************************************************");
         console.log("\n");
 
         for(var i = 0; i < results.length; i++) {
-            console.log("ID: " + results[i].item_id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
-            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            console.log("ID: " + results[i].item_id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity + " | " + "Product Sales: " + results[i].product_sales);
+            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
 });
 console.log("\n")
@@ -103,9 +103,9 @@ function viewInv() {
                     dept: results[i].department_name,
                     price: results[i].price,
                     qty: results[i].stock_quantity
-                };
+                }; 
             console.log("Running low on: " + JSON.stringify(lowItems));
-            } else console.log("Invetory is plenty!!")
+             } 
         } 
          
     })

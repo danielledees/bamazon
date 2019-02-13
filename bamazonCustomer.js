@@ -150,21 +150,13 @@ connection.connect(function(err) {
                     console.log("SQL Updated");
                     //start();  //doesn't work
                     shopMore();
-                });
-
-                
-
-                //******************* */
-//                 when a customer purchases anything from the store, the price of the product multiplied by the quantity purchased is added to the product's product_sales column.
-
-//    * Make sure your app still updates the inventory listed in the `products` column.
-        //******************* */
-                 
+                });   
                
              } else {
                 console.log("\n");
                  console.log("Sorry, not enought in stock.  Order Cancelled!");
                  //start(); //doesn't work
+                 console.log("\n");
                  shopMore();
 
              }
