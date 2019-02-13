@@ -43,3 +43,6 @@ Bamazon is an Amazon-like storefront with the MySQL database. The app will take 
 
 * If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
+### Demo: 
+(https://drive.google.com/file/d/1BgXm8ZpP8MtC2TMgfqbCZ03GvDwde9jv/view)
+
