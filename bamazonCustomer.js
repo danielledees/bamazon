@@ -183,8 +183,7 @@ connection.connect(function(err) {
                 console.log("Thanks for shopping with us! Have a nice day!")
                 connection.end();
             }
-        })
-        
+        })  
     }
 
    

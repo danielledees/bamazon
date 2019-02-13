@@ -106,12 +106,11 @@ function viewInv() {
                 }; 
             console.log("Running low on: " + JSON.stringify(lowItems));
              } 
-        } 
-         
+        }    
     })
-
-  
 }
+
+//function to update stock quantity
 
 function addInv() {
    
@@ -153,8 +152,9 @@ function addInv() {
                     
                 });
             });
+        }
 
-}
+//function to add new items
 
 function addProd() {
     
@@ -206,8 +206,6 @@ function addProd() {
         }
         );
     });
-
-  
 }
 
 

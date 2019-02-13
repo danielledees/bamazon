@@ -69,8 +69,6 @@ function start() {
         } else if (answer.options === "Create New Department") {
             addDept();
         } 
-        
-
     })
 }
 })
@@ -88,8 +86,6 @@ function viewSales() {
     //     console.log("Sales:");
     //     console.log("**********************************************************************************");
     //     console.log("\n");
-
-         
 
         // for(var i = 0; i < results.length; i++) {
         //     console.log("ID: " + results[i].department.id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs + " | " + "Product Sales: " + results[i].product_sales);
@@ -116,23 +112,18 @@ function viewSales() {
                   
                 );
             }
-            
             console.log(table.toString());
-        })
-        
-       
             
+        }) //end query   
            
-//I can't figure out why the results are not printing
+//******* */I can't figure out why the results are not printing********
 
-
- 
 } //end function
 
 
+//function to add department
 
 function addDept() {
-    console.log("add dept function is working")
     inquirer
     .prompt ([
         {
@@ -157,7 +148,4 @@ function addDept() {
         }
         );
     });
-
-  
-
 }
