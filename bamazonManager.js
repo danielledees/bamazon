@@ -39,7 +39,7 @@ connection.connect(function(err) {
     if (err) throw err;
     console.log("Connected...")
     // run the start function after the connection is made to prompt the user
-    start()
+    start();
 
     
 //function prompt manager for task 
@@ -71,7 +71,7 @@ function start() {
 //function to view products
 
 function viewProd() {
-    console.log("viewProd function is working");
+   
     connection.query("SELECT * FROM products", function(err, results) {
         if (err) throw err;
 
@@ -81,35 +81,40 @@ function viewProd() {
         console.log("\n");
 
         for(var i = 0; i < results.length; i++) {
-            console.log("ID: " + results[i].id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
+            console.log("ID: " + results[i].item_id + " | " + "Product: " + results[i].product_name + " | " + "Department: " + results[i].department_name + " | " + "Price: " + results[i].price + " | " + "Stock QTY: " + results[i].stock_quantity);
             console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         }
 });
+console.log("\n")
+
 };
 
 //function to view low inventory
 
 function viewInv() {
-    console.log("viewInv function is working");
+    
     connection.query("SELECT * FROM products", function(err, results) {
         if (err) throw err;
         for (var i =0; i < results.length; i++) {
             if (results[i].stock_quantity < 5) {
                 var lowItems = {
-                    id: results[i].id,
+                    item_id: results[i].item_id,
                     prod: results[i].product_name,
                     dept: results[i].department_name,
                     price: results[i].price,
                     qty: results[i].stock_quantity
                 };
             console.log("Running low on: " + JSON.stringify(lowItems));
-        }
-        }
+            } else console.log("Invetory is plenty!!")
+        } 
+         
     })
+
+  
 }
 
 function addInv() {
-    console.log("addInv function is working");
+   
     inquirer
          .prompt([
              {
@@ -141,17 +146,18 @@ function addInv() {
                     stock_quantity: answers.qty
                 }, {
                     
-                    id: answers.choice
+                    item_id: answers.choice
 
                 }], function(err, results) {
                     console.log("Inventory Updated");
                     
                 });
-            })
+            });
+
 }
 
 function addProd() {
-    console.log("addProd function is working");
+    
     inquirer
     .prompt ([
         {
@@ -200,6 +206,11 @@ function addProd() {
         }
         );
     });
+
+  
 }
+
+
+
 
 

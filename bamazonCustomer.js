@@ -172,15 +172,15 @@ connection.connect(function(err) {
         })
     }
 
-
+//function to prompt customer if they want to continue shopping
     function shopMore () {
-        console.log("shop more is working!")
+        
         inquirer
         .prompt ([
             {
                 type: "confirm",
                 name: "more",
-                message: "Would you like to continue shopping?",
+                message: "Would you like to purchase anything else?",
                 default: true
             }
         ]).then(function(res) {
