@@ -27,6 +27,8 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var table = require('table');
+const cTable = require('console.table');
+var Table = require('cli-table');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -74,29 +76,88 @@ function start() {
 })
 
 function viewSales() {
-    console.log("view sales function is working")
-    connection.query("SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM departments INNER JOIN products ON departments.department_name = products.department_name WHERE departments.department_name AND products.department_name GROUP BY department_id, departments.department_name, overhead_costs, product_sales", function(err, results) {
-        if (err) throw err;
+    
+    // connection.query("SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM departments JOIN products ON departments.department_name = products.department_name WHERE departments.department_name AND products.department_name GROUP BY department_id, departments.department_name, overhead_costs, product_sales", function(err, results) {
+    //     if (err) throw err;
 
 
-        console.log("error here " + err);
-        console.log("Results here " + results);
+    //     console.log("error here " + err);
+    //     console.log("Results here " + results);
 
-        console.log("\n");
-        console.log("Sales:");
-        console.log("**********************************************************************************");
-        console.log("\n");
+    //     console.log("\n");
+    //     console.log("Sales:");
+    //     console.log("**********************************************************************************");
+    //     console.log("\n");
+
+         
+
+        // for(var i = 0; i < results.length; i++) {
+        //     console.log("ID: " + results[i].department.id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs + " | " + "Product Sales: " + results[i].product_sales);
+        //     console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");             
+        //     }
+
+    // }) end query
+
+        var query = "SELECT departments.department_id, departments.department_name, departments.overhead_costs, products.product_sales FROM departments INNER JOIN products ON departments.department_name = products.department_name WHERE departments.department_name AND products.department_name GROUP BY department_id, departments.department_name, overhead_costs, product_sales";
+
+        connection.query(query, function(err, results) {
+            if (err) throw err;
+
         
-
-        for(var i = 0; i < results.length; i++) {
-            console.log("ID: " + results[i].department.id + " | " + "Department: " + results[i].department_name + " | " + "Overhead Costs: " + results[i].overhead_costs + " | " + "Product Sales: " + results[i].product_sales);
-            console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");                
+            var table = new Table({
+                head: ['ID', 'Department', 'Overhead Costs', 'Product Sales']
+              , colWidths: [20, 20, 20, 20]
+            });
+             
+            // table is an Array, so you can `push`, `unshift`, `splice` and friends
+            for (var i = 0; i < results.length; i++) {
+                table.push(
+                    [results[i].department_id, results[i].department_name]
+                  
+                );
             }
-    })
-}
+            
+            console.log(table.toString());
+        })
+        
+       
+            
+           
+//I can't figure out why the results are not printing
+
+
+ 
+} //end function
 
 
 
 function addDept() {
     console.log("add dept function is working")
+    inquirer
+    .prompt ([
+        {
+            name: "department",
+            type: "input",
+            message: "Enter in new department name"
+        },
+        {
+            name: "cost",
+            type: "input",
+            message: "What are the overhead costs?"
+        }
+
+    ]).then(function(answer) {
+        connection.query("INSERT INTO departments SET ?", {
+            department_name: answer.department,
+            overhead_costs: answer.cost,
+        },
+        function(err, results) {
+            if (err) throw err;
+            console.log("Department Added")
+        }
+        );
+    });
+
+  
+
 }
